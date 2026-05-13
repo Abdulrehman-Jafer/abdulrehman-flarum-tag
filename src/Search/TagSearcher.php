@@ -10,7 +10,7 @@
 namespace Abdulrehman\Tags\Search;
 
 use Flarum\Search\Database\AbstractSearcher;
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Builder;
 

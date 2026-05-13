@@ -264,10 +264,14 @@ export default class TagSelectionModal<
       // If the number of selected primary/secondary tags is at the maximum, then
       // we'll filter out all other tags of that type.
       else {
-        if (primaryCount >= this.attrs.limits!.max!.primary!) {
+        const maxPrimary = Number(this.attrs.limits!.max!.primary);
+        const maxSecondary = Number(this.attrs.limits!.max!.secondary);
+        // When max is 0, Flarum treats that slot as unused (see composer tag checks). Applying
+        // `count >= 0` here would hide every tag (or force contradictory filters if both are 0).
+        if (maxPrimary > 0 && primaryCount >= maxPrimary) {
           tags = tags.filter((tag) => !tag.isPrimaryParent() || this.selected.includes(tag));
         }
-        if (secondaryCount >= this.attrs.limits!.max!.secondary!) {
+        if (maxSecondary > 0 && secondaryCount >= maxSecondary) {
           tags = tags.filter((tag) => tag.isPrimaryParent() || this.selected.includes(tag));
         }
       }

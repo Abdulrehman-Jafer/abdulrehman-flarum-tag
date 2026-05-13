@@ -9,7 +9,7 @@
 
 namespace Abdulrehman\Tags\Tests\integration\api\tags;
 
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Flarum\Testing\integration\TestCase;
 use Illuminate\Support\Arr;
 use PHPUnit\Framework\Attributes\DataProvider;

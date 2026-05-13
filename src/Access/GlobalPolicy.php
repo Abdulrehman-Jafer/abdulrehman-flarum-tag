@@ -10,7 +10,7 @@
 namespace Abdulrehman\Tags\Access;
 
 use Flarum\Settings\SettingsRepositoryInterface;
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Flarum\User\Access\AbstractPolicy;
 use Flarum\User\User;
 

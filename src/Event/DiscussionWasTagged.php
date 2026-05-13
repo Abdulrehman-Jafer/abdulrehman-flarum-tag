@@ -10,7 +10,7 @@
 namespace Abdulrehman\Tags\Event;
 
 use Flarum\Discussion\Discussion;
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Flarum\User\User;
 
 class DiscussionWasTagged

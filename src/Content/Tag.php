@@ -15,7 +15,7 @@ use Flarum\Frontend\Document;
 use Flarum\Http\RequestUtil;
 use Flarum\Http\SlugManager;
 use Flarum\Locale\TranslatorInterface;
-use Abdulrehman\Tags\Tag as TagModel;
+use Flarum\Tags\Tag as TagModel;
 use Abdulrehman\Tags\TagRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;

@@ -10,7 +10,7 @@
 namespace Abdulrehman\Tags\Api\Controller;
 
 use Flarum\Http\RequestUtil;
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ResponseInterface;

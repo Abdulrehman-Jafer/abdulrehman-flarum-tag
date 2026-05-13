@@ -9,7 +9,7 @@
 
 namespace Abdulrehman\Tags\Access;
 
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;

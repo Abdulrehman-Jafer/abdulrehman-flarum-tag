@@ -10,7 +10,7 @@
 namespace Abdulrehman\Tags\Tests\integration\api\tags;
 
 use Flarum\Group\Group;
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Abdulrehman\Tags\Tests\integration\RetrievesRepresentativeTags;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;

@@ -11,7 +11,7 @@ namespace Abdulrehman\Tags\Search;
 
 use Flarum\Search\Database\DatabaseSearchState;
 use Flarum\Search\SearchCriteria;
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 
 class HideHiddenTagsFromAllDiscussionsPage
 {

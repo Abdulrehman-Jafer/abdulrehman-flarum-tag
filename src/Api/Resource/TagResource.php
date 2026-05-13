@@ -18,7 +18,7 @@ use Flarum\Locale\TranslatorInterface;
 use Abdulrehman\Tags\Event\Creating;
 use Abdulrehman\Tags\Event\Deleting;
 use Abdulrehman\Tags\Event\Saving;
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Tobyz\JsonApiServer\Context;

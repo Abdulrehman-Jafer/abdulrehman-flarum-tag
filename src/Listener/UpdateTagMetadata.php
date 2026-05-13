@@ -20,7 +20,7 @@ use Flarum\Post\Event\Posted;
 use Flarum\Post\Event\Restored as PostRestored;
 use Flarum\Post\Post;
 use Abdulrehman\Tags\Event\DiscussionWasTagged;
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;

@@ -9,7 +9,7 @@
 
 namespace Abdulrehman\Tags\Event;
 
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Flarum\User\User;
 
 class Deleting

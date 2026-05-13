@@ -23,7 +23,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Abdulrehman\\Tags\\": "src/"
+            "Abdulrehman\\Tags\\": "src/",
+            "Flarum\\Tags\\": "compat/"
         }
     },
     "autoload-dev": {

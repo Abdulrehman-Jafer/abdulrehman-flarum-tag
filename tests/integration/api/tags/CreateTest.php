@@ -9,7 +9,7 @@
 
 namespace Abdulrehman\Tags\Tests\integration\api\tags;
 
-use Abdulrehman\Tags\Tag;
+use Flarum\Tags\Tag;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
