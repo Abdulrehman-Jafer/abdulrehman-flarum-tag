@@ -103,4 +103,39 @@ class CreateTest extends TestCase
         $this->assertEquals('#123456', $tag->color);
         $this->assertNull($tag->icon);
     }
+
+    #[Test]
+    public function admin_can_set_and_read_tag_name_translations()
+    {
+        $response = $this->send(
+            $this->request('POST', '/api/tags', [
+                'authenticatedAs' => 1,
+                'json' => [
+                    'data' => [
+                        'type' => 'tags',
+                        'attributes' => [
+                            'name' => 'Gaming',
+                            'slug' => 'gaming',
+                            'nameTranslations' => [
+                                'zh-Hans' => '游戏',
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(201, $response->getStatusCode(), (string) $response->getBody());
+
+        $data = json_decode((string) $response->getBody(), true);
+        $this->assertEquals('Gaming', Arr::get($data, 'data.attributes.name'));
+        $this->assertArrayHasKey('displayName', Arr::get($data, 'data.attributes', []));
+        $this->assertEquals(['zh-Hans' => '游戏'], Arr::get($data, 'data.attributes.nameTranslations'));
+
+        $tag = Tag::query()->where('slug', 'gaming')->first();
+        $this->assertNotNull($tag);
+        $this->assertEquals(['zh-Hans' => '游戏'], $tag->name_translations);
+        $this->assertEquals('游戏', $tag->getLocalizedDisplayName('zh-Hans', ['en']));
+        $this->assertEquals('Gaming', $tag->getLocalizedDisplayName('en', []));
+    }
 }

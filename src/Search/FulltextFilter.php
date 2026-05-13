@@ -30,8 +30,13 @@ class FulltextFilter extends AbstractFulltextFilter
         return $this->tags
             ->query()
             ->select('id')
-            ->where('name', 'like', "$searchValue%")
-            ->orWhere('slug', 'like', "$searchValue%");
+            ->where(function ($q) use ($searchValue) {
+                $like = $searchValue.'%';
+                $jsonLike = '%'.$searchValue.'%';
+                $q->where('name', 'like', $like)
+                    ->orWhere('slug', 'like', $like)
+                    ->orWhere('name_translations', 'like', $jsonLike);
+            });
     }
 
     public function search(SearchState $state, string $value): void

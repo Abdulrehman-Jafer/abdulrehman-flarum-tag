@@ -68,13 +68,18 @@ class Tag
             $apiDocument->included[] = $includedTag;
         }
 
-        $document->title = $tag->name;
+        $tagDisplayName = $tag->getLocalizedDisplayName(
+            $this->translator->getLocale(),
+            method_exists($this->translator, 'getFallbackLocales') ? $this->translator->getFallbackLocales() : []
+        );
+
+        $document->title = $tagDisplayName;
         if ($tag->description) {
             $document->meta['description'] = $tag->description;
         } else {
-            $document->meta['description'] = $this->translator->trans('flarum-tags.forum.tag.meta_description_text', ['{tag}' => $tag->name]);
+            $document->meta['description'] = $this->translator->trans('flarum-tags.forum.tag.meta_description_text', ['{tag}' => $tagDisplayName]);
         }
-        $document->content = $this->view->make('tags::frontend.content.tag', compact('apiDocument', 'page', 'tag'));
+        $document->content = $this->view->make('tags::frontend.content.tag', compact('apiDocument', 'page', 'tag', 'tagDisplayName'));
         $document->payload['apiDocument'] = $apiDocument;
 
         return $document;

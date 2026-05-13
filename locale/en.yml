@@ -22,6 +22,9 @@ flarum-tags:
       icon_text: => core.ref.icon_text
       name_label: => flarum-tags.ref.name
       name_placeholder: => flarum-tags.ref.name
+      name_help: "This is the canonical name stored on the tag (used as a fallback and for URL metadata). Slug is derived from it when you create a tag."
+      name_translations_heading: Localized names
+      name_translations_text: "Optional names per installed language. Forum visitors see the version that matches their selected language when one is set."
       slug_label: Slug
       submit_button: => core.ref.save_changes
       title: Create Tag

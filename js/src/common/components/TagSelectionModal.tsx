@@ -9,7 +9,7 @@ import FormModal from 'flarum/common/components/FormModal';
 import Stream from 'flarum/common/utils/Stream';
 
 import sortTags from '../utils/sortTags';
-import tagLabel from '../helpers/tagLabel';
+import tagLabel, { tagDisplayText } from '../helpers/tagLabel';
 import tagIcon from '../helpers/tagIcon';
 import ToggleButton from '../../forum/components/ToggleButton';
 
@@ -222,7 +222,7 @@ export default class TagSelectionModal<
                 {tagIcon(tag, { className: 'SelectTagListItem-tagIcon' })}
                 <i className="icon TagIcon fas fa-check SelectTagListItem-checkIcon"></i>
               </i>
-              <span className="SelectTagListItem-name">{highlight(tag.name(), filter)}</span>
+              <span className="SelectTagListItem-name">{highlight(tagDisplayText(tag), filter)}</span>
               {tag.description() ? <span className="SelectTagListItem-description">{tag.description()}</span> : ''}
             </li>
           ))}
@@ -276,7 +276,7 @@ export default class TagSelectionModal<
     // If the user has entered text in the filter input, then filter by tags
     // whose name matches what they've entered.
     if (filter) {
-      tags = tags.filter((tag) => tag.name().toLowerCase().includes(filter));
+      tags = tags.filter((tag) => tagDisplayText(tag).toLowerCase().includes(filter));
     }
 
     if (!this.indexTag || !tags.includes(this.indexTag)) this.indexTag = tags[0];

@@ -41,6 +41,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $last_posted_discussion_id
  * @property int $last_posted_user_id
  * @property string $icon
+ * @property array<string, string>|null $name_translations
  *
  * @property TagState|null $state
  * @property Tag|null $parent
@@ -63,6 +64,7 @@ class Tag extends AbstractModel
         'last_posted_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'name_translations' => 'array',
     ];
 
     public static function boot()
@@ -82,6 +84,30 @@ class Tag extends AbstractModel
                     ->where('is_primary', true)
                     ->max('position') + 1;
             }
+        });
+
+        static::saving(function (self $tag) {
+            $v = $tag->name_translations;
+            if ($v === null) {
+                return;
+            }
+            if (! is_array($v)) {
+                $tag->name_translations = null;
+
+                return;
+            }
+            $out = [];
+            foreach ($v as $locale => $label) {
+                if (! is_string($locale) || ! is_string($label)) {
+                    continue;
+                }
+                $label = trim($label);
+                if ($label === '') {
+                    continue;
+                }
+                $out[$locale] = mb_substr($label, 0, 100);
+            }
+            $tag->name_translations = $out === [] ? null : $out;
         });
 
         static::deleted(function (self $tag) {
@@ -287,6 +313,56 @@ class Tag extends AbstractModel
     public static function flushPermittedTagCache(): void
     {
         static::$permittedTagIdCache = null;
+    }
+
+    /**
+     * Resolved label for a UI locale, using optional per-locale strings in
+     * `name_translations` and falling back to the canonical `name` column.
+     *
+     * @param  string[]  $fallbackLocales  Additional locale codes to try (e.g. translator fallbacks).
+     */
+    public function getLocalizedDisplayName(string $locale, array $fallbackLocales = []): string
+    {
+        $map = $this->name_translations ?? [];
+        $chain = array_values(array_unique(array_filter(array_merge(
+            [$locale],
+            $fallbackLocales
+        ))));
+
+        foreach ($chain as $loc) {
+            $resolved = $this->pickTranslationForLocaleKey($map, $loc);
+            if ($resolved !== null) {
+                return $resolved;
+            }
+        }
+
+        return $this->name;
+    }
+
+    /**
+     * @param  array<string, string>  $map
+     */
+    protected function pickTranslationForLocaleKey(array $map, string $locale): ?string
+    {
+        $candidates = array_unique(array_filter([
+            $locale,
+            str_replace('_', '-', $locale),
+            str_replace('-', '_', $locale),
+        ]));
+
+        foreach ($candidates as $key) {
+            if (! isset($map[$key]) || ! is_string($map[$key])) {
+                continue;
+            }
+
+            $value = trim($map[$key]);
+
+            if ($value !== '') {
+                return $value;
+            }
+        }
+
+        return null;
     }
 
     public function scopeWhereHasPermission(Builder $query, User $user, string $currPermission): Builder

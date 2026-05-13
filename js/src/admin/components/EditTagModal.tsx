@@ -32,6 +32,8 @@ export default class EditTagModal extends FormModal<EditTagModalAttrs> {
   isHidden!: Stream<boolean>;
   isPrimary!: Stream<boolean>;
 
+  nameTranslationStreams: Record<string, Stream<string>> = {};
+
   oninit(vnode: Mithril.Vnode<EditTagModalAttrs, this>) {
     super.oninit(vnode);
 
@@ -44,6 +46,21 @@ export default class EditTagModal extends FormModal<EditTagModalAttrs> {
     this.icon = Stream(this.tag.icon() || '');
     this.isHidden = Stream(this.tag.isHidden() || false);
     this.isPrimary = Stream(this.attrs.primary || false);
+
+    this.nameTranslationStreams = {};
+    for (const locale of this.enabledLocales()) {
+      const raw = this.tag.nameTranslations() || {};
+      this.nameTranslationStreams[locale] = Stream(typeof raw[locale] === 'string' ? raw[locale] : '');
+    }
+  }
+
+  enabledLocales(): string[] {
+    const locales = app.data.locales as Record<string, unknown> | undefined;
+    if (locales && typeof locales === 'object') {
+      return Object.keys(locales).sort();
+    }
+
+    return [];
   }
 
   className() {
@@ -81,9 +98,34 @@ export default class EditTagModal extends FormModal<EditTagModalAttrs> {
             this.slug(slug(target.value));
           }}
         />
+        <p className="helpText">{app.translator.trans('flarum-tags.admin.edit_tag.name_help')}</p>
       </div>,
       50
     );
+
+    if (this.enabledLocales().length) {
+      items.add(
+        'nameTranslations',
+        <div className="Form-group">
+          <label>{app.translator.trans('flarum-tags.admin.edit_tag.name_translations_heading')}</label>
+          <p className="helpText">{app.translator.trans('flarum-tags.admin.edit_tag.name_translations_text')}</p>
+          {this.enabledLocales().map((locale) => (
+            <div className="Form-group" key={locale}>
+              <label>{locale}</label>
+              <input
+                className="FormControl"
+                value={this.nameTranslationStreams[locale]()}
+                oninput={(e: InputEvent) => {
+                  const target = e.target as HTMLInputElement;
+                  this.nameTranslationStreams[locale](target.value);
+                }}
+              />
+            </div>
+          ))}
+        </div>,
+        48
+      );
+    }
 
     items.add(
       'slug',
@@ -157,7 +199,7 @@ export default class EditTagModal extends FormModal<EditTagModalAttrs> {
   }
 
   submitData() {
-    return {
+    const base = {
       name: this.name(),
       slug: this.slug(),
       description: this.description(),
@@ -166,6 +208,24 @@ export default class EditTagModal extends FormModal<EditTagModalAttrs> {
       isHidden: this.isHidden(),
       isPrimary: this.isPrimary(),
     };
+
+    if (!this.enabledLocales().length) {
+      return base;
+    }
+
+    const nameTranslations: Record<string, string> = {};
+    for (const locale of this.enabledLocales()) {
+      const stream = this.nameTranslationStreams[locale];
+      if (!stream) {
+        continue;
+      }
+      const value = stream().trim();
+      if (value !== '') {
+        nameTranslations[locale] = value;
+      }
+    }
+
+    return { ...base, nameTranslations };
   }
 
   onsubmit(e: SubmitEvent) {

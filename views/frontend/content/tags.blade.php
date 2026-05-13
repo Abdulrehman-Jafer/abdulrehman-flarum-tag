@@ -10,7 +10,7 @@
                     <a href="{{ $url->to('forum')->route('tag', [
                                 'slug' => $tag['slug']
                             ]) }}">
-                        {{ $tag['name'] }}
+                        {{ $tag['displayName'] ?? $tag['name'] }}
                     </a>
 
                     @if ($children->has($id))
@@ -20,7 +20,7 @@
                                     <a href="{{ $url->to('forum')->route('tag', [
                                                 'slug' => $child['attributes']['slug']
                                             ]) }}">
-                                        {{ $child['attributes']['name'] }}
+                                        {{ $child['attributes']['displayName'] ?? $child['attributes']['name'] }}
                                     </a>
                                 </li>
                             @endforeach

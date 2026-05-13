@@ -14,6 +14,7 @@ use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
 use Flarum\Http\SlugManager;
+use Flarum\Locale\TranslatorInterface;
 use Abdulrehman\Tags\Event\Creating;
 use Abdulrehman\Tags\Event\Deleting;
 use Abdulrehman\Tags\Event\Saving;
@@ -28,7 +29,8 @@ use Tobyz\JsonApiServer\Context;
 class TagResource extends AbstractDatabaseResource
 {
     public function __construct(
-        protected SlugManager $slugManager
+        protected SlugManager $slugManager,
+        protected TranslatorInterface $translator
     ) {
     }
 
@@ -85,6 +87,14 @@ class TagResource extends AbstractDatabaseResource
         return [
             Schema\Str::make('name')
                 ->requiredOnCreate()
+                ->writable(),
+            Schema\Str::make('displayName')
+                ->get(fn (Tag $tag) => $tag->getLocalizedDisplayName(
+                    $this->translator->getLocale(),
+                    method_exists($this->translator, 'getFallbackLocales') ? $this->translator->getFallbackLocales() : []
+                )),
+            Schema\Arr::make('nameTranslations')
+                ->nullable()
                 ->writable(),
             Schema\Str::make('description')
                 ->writable()

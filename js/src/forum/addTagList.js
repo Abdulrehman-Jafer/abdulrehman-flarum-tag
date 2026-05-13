@@ -7,6 +7,7 @@ import LinkButton from 'flarum/common/components/LinkButton';
 import TagLinkButton from './components/TagLinkButton';
 import TagsPage from './components/TagsPage';
 import sortTags from '../common/utils/sortTags';
+import { tagDisplayText } from '../common/helpers/tagLabel';
 
 export default function addTagList() {
   // Add a link to the tags page, as well as a list of all the tags,
@@ -43,7 +44,7 @@ export default function addTagList() {
       items.add(
         'tag' + tag.id(),
         <TagLinkButton model={tag} params={params} active={active}>
-          {tag?.name()}
+          {tag ? tagDisplayText(tag) : ''}
         </TagLinkButton>,
         -14
       );

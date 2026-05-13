@@ -4,12 +4,21 @@ import classList from 'flarum/common/utils/classList';
 import textContrastClass from 'flarum/common/helpers/textContrastClass';
 import tagIcon from './tagIcon';
 
+/** Visible tag title for the current forum locale (falls back to canonical `name`). */
+export function tagDisplayText(tag) {
+  if (!tag) {
+    return '';
+  }
+
+  return (tag.displayName && tag.displayName()) || tag.name();
+}
+
 export default function tagLabel(tag, attrs = {}) {
   attrs.style = attrs.style || {};
   attrs.className = 'TagLabel ' + (attrs.className || '');
 
   const link = extract(attrs, 'link');
-  const tagText = tag ? tag.name() : app.translator.trans('flarum-tags.lib.deleted_tag_text');
+  const tagText = tag ? tagDisplayText(tag) : app.translator.trans('flarum-tags.lib.deleted_tag_text');
 
   if (tag) {
     const color = tag.color();

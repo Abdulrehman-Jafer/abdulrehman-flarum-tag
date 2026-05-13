@@ -1,7 +1,9 @@
 import Link from 'flarum/common/components/Link';
 import LinkButton from 'flarum/common/components/LinkButton';
 import classList from 'flarum/common/utils/classList';
+import app from 'flarum/forum/app';
 import tagIcon from '../../common/helpers/tagIcon';
+import { tagDisplayText } from '../../common/helpers/tagLabel';
 
 export default class TagLinkButton extends LinkButton {
   view(vnode) {
@@ -12,7 +14,7 @@ export default class TagLinkButton extends LinkButton {
     return (
       <Link className={className} href={this.attrs.route} style={tag ? { '--color': tag.color() } : undefined} title={description || undefined}>
         {tagIcon(tag, { className: 'Button-icon' })}
-        <span className="Button-label">{tag ? tag.name() : app.translator.trans('flarum-tags.forum.index.untagged_link')}</span>
+        <span className="Button-label">{tag ? tagDisplayText(tag) : app.translator.trans('flarum-tags.forum.index.untagged_link')}</span>
       </Link>
     );
   }

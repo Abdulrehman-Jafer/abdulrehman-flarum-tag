@@ -13,7 +13,7 @@ import classList from 'flarum/common/utils/classList';
 import extractText from 'flarum/common/utils/extractText';
 
 import tagIcon from '../../common/helpers/tagIcon';
-import tagLabel from '../../common/helpers/tagLabel';
+import tagLabel, { tagDisplayText } from '../../common/helpers/tagLabel';
 import sortTags from '../../common/utils/sortTags';
 import Mithril from 'mithril';
 
@@ -107,11 +107,11 @@ export default class TagsPage<CustomAttrs extends ITagsPageAttrs = ITagsPageAttr
         <Link className="TagTile-info" href={app.route.tag(tag)}>
           <div className="TagTile-heading">
             {tag.icon() && tagIcon(tag, {}, { useColor: false })}
-            <h3 className="TagTile-name">{tag.name()}</h3>
+            <h3 className="TagTile-name">{tagDisplayText(tag)}</h3>
           </div>
           <p className="TagTile-description">{tag.description()}</p>
           {!!children && (
-            <div className="TagTile-children">{children.map((child) => [<Link href={app.route.tag(child)}>{child.name()}</Link>, ' '])}</div>
+            <div className="TagTile-children">{children.map((child) => [<Link href={app.route.tag(child)}>{tagDisplayText(child)}</Link>, ' '])}</div>
           )}
         </Link>
         {lastPostedDiscussion ? (

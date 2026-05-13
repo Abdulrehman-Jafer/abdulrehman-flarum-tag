@@ -3,6 +3,12 @@ import Model from 'flarum/common/Model';
 import type Discussion from 'flarum/common/models/Discussion';
 
 export default class Tag extends Model {
+  displayName() {
+    return Model.attribute<string | undefined>('displayName').call(this);
+  }
+  nameTranslations() {
+    return Model.attribute<Record<string, string> | null | undefined>('nameTranslations').call(this);
+  }
   name() {
     return Model.attribute<string>('name').call(this);
   }

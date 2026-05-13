@@ -10,6 +10,7 @@ import textContrastClass from 'flarum/common/helpers/textContrastClass';
 import type { ComponentAttrs } from 'flarum/common/Component';
 
 import TagHero from './components/TagHero';
+import { tagDisplayText } from '../common/helpers/tagLabel';
 import type Tag from '../common/models/Tag';
 
 const findTag = (slug: string) => app.store.all<Tag>('tags').find((tag) => tag.slug().localeCompare(slug, undefined, { sensitivity: 'base' }) === 0);
@@ -83,7 +84,7 @@ export default function addTagFilter() {
     const tag = app.currentTag();
 
     if (tag) {
-      app.setTitle(tag.name());
+      app.setTitle(tagDisplayText(tag));
     }
   });
 

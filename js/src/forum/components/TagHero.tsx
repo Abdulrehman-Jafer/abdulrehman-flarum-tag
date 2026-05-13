@@ -1,6 +1,7 @@
 import Hero, { IHeroAttrs } from 'flarum/forum/components/Hero';
 import textContrastClass from 'flarum/common/helpers/textContrastClass';
 import tagIcon from '../../common/helpers/tagIcon';
+import { tagDisplayText } from '../../common/helpers/tagLabel';
 import classList from 'flarum/common/utils/classList';
 import ItemList from 'flarum/common/utils/ItemList';
 
@@ -44,7 +45,7 @@ export default class TagHero<CustomAttrs extends ITagHeroAttrs = ITagHeroAttrs> 
     items.add(
       'tag-title',
       <h1 className="Hero-title">
-        {tag.icon() && tagIcon(tag, {}, { useColor: false })} {tag.name()}
+        {tag.icon() && tagIcon(tag, {}, { useColor: false })} {tagDisplayText(tag)}
       </h1>,
       100
     );

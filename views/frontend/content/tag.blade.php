@@ -1,7 +1,7 @@
 @inject('url', 'Flarum\Http\UrlGenerator')
 
 <div class="container">
-    <h1>{{ $tag->name }}</h1>
+    <h1>{{ $tagDisplayName }}</h1>
     <p>{{ $tag->description }}</p>
 
     <ul>
