@@ -60,6 +60,7 @@ return [
     (new Extend\ApiResource(Resource\ForumResource::class))
         ->fields(fn () => [
             Schema\Relationship\ToMany::make('tags')
+                ->type('tags')
                 ->includable()
                 ->get(function ($model, Context $context) {
                     $actor = $context->getActor();
