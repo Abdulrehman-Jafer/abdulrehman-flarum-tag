@@ -147,6 +147,7 @@ class TagResource extends AbstractDatabaseResource
                 ->includable(),
             Schema\Relationship\ToOne::make('lastPostedDiscussion')
                 ->type('discussions')
+                ->nullable()
                 ->includable(),
         ];
     }
