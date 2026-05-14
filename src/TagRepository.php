@@ -9,6 +9,7 @@
 
 namespace Abdulrehman\Tags;
 
+use Flarum\Tags\Tag;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
