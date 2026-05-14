@@ -140,6 +140,7 @@ class TagResource extends AbstractDatabaseResource
 
             Schema\Relationship\ToOne::make('parent')
                 ->type('tags')
+                ->nullable()
                 ->includable()
                 ->writable(fn (Tag $tag, FlarumContext $context) => (bool) Arr::get($context->body(), 'attributes.isPrimary')),
             Schema\Relationship\ToMany::make('children')
